@@ -266,7 +266,7 @@ function of13 {
         $install libxerces-c-dev
     fi
     if [ ! -d "ofsoftswitch13" ]; then
-        git clone https://github.com/CPqD/ofsoftswitch13.git
+        git clone https://github.com/davidcawork/ofsoftswitch13.git
         if [[ -n "$OF13_SWITCH_REV" ]]; then
             cd ofsoftswitch13
             git checkout ${OF13_SWITCH_REV}
