@@ -257,6 +257,7 @@ function of {
 function of13 {
     echo "Installing OpenFlow 1.3 soft switch implementation..."
     cd $BUILD_DIR/
+    $update update
     $install git-core autoconf automake autotools-dev pkg-config \
         make gcc g++ libtool libc6-dev cmake libpcap-dev  \
         unzip libpcre3-dev flex bison libboost-dev
