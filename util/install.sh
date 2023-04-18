@@ -532,9 +532,9 @@ function ryu {
     cd ryu
 
     # install ryu
-    sudo pip install -r tools/pip-requires -r tools/optional-requires \
+    sudo pip3 install -r tools/pip-requires -r tools/optional-requires \
         -r tools/test-requires
-    sudo python setup.py install
+    sudo python3 setup.py install
 
     # Add symbolic link to /usr/bin
     sudo ln -s ./bin/ryu-manager /usr/local/bin/ryu-manager
