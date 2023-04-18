@@ -520,7 +520,7 @@ function ryu {
     echo "Installing RYU..."
 
     # install Ryu dependencies"
-    $install autoconf automake g++ libtool python make
+    $install autoconf automake g++ libtool ${PYPKG} make
     if [ "$DIST" = "Ubuntu" -o "$DIST" = "Debian" ]; then
         $install gcc ${PYPKG}-pip ${PYPKG}-dev libffi-dev libssl-dev \
             libxml2-dev libxslt1-dev zlib1g-dev
@@ -537,7 +537,7 @@ function ryu {
     sudo python3 setup.py install
 
     # Add symbolic link to /usr/bin
-    sudo ln -s ./bin/ryu-manager /usr/local/bin/ryu-manager
+    sudo ln -fs ./bin/ryu-manager /usr/local/bin/ryu-manager
 }
 
 # Install NOX with tutorial files
