@@ -528,7 +528,7 @@ function ryu {
 
     # fetch RYU
     cd $BUILD_DIR/
-    git clone https://github.com/osrg/ryu.git ryu
+    git clone https://github.com/davidcawork/ryu.git ryu
     cd ryu
 
     # install ryu
