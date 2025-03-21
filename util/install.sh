@@ -17,7 +17,7 @@ MININET_DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd -P )"
 #  in which case we use the directory containing mininet
 BUILD_DIR="$(pwd -P)"
 case $BUILD_DIR in
-  $MININET_DIR/*) BUILD_DIR=$MININET_DIR;; # currect directory is a subdirectory
+  $MININET_DIR/*) BUILD_DIR=$MININET_DIR;; # current directory is a subdirectory
   *) BUILD_DIR=$BUILD_DIR;;
 esac
 
@@ -165,7 +165,7 @@ function mn_deps {
         $install gcc make socat psmisc xterm openssh-clients iperf \
             iproute telnet python-setuptools libcgroup-tools \
             ethtool help2man net-tools
-        $install ${PYPKG}-pyflakes pylint ${PYPKG}-pep8-naming  \
+        $install ${PYPKG}-pyflakes pylint ${PYPKG}-pep8-naming \
             ${PYPKG}-pexpect
     elif [ "$DIST" = "SUSE LINUX"  ]; then
 		$install gcc make socat psmisc xterm openssh iperf \
@@ -180,7 +180,7 @@ function mn_deps {
         if [ "$DIST" = "Ubuntu" -a `expr $RELEASE '>=' 20.04` = "1" ]; then
                 pf=pyflakes3
         fi
-        # Debian 11 "bullseye" renamed 
+        # Debian 11 "bullseye" renamed
         # * pep8 to python3-pep8
         # * pyflakes to pyflakes3
         if [ "$DIST" = "Debian" -a `expr $RELEASE '>=' 11` = "1" ]; then
@@ -190,21 +190,23 @@ function mn_deps {
 
         $install gcc make socat psmisc xterm ssh iperf telnet \
                  ethtool help2man $pf pylint $pep8 \
-                 net-tools \
-                 ${PYPKG}-pexpect ${PYPKG}-tk
+                 net-tools ${PYPKG}-tk
+
         # Install pip
         $install ${PYPKG}-pip || $install ${PYPKG}-pip-whl
         if ! ${PYTHON} -m pip -V; then
             if [ $PYTHON_VERSION == 2 ]; then
-                wget https://bootstrap.pypa.io/pip/2.6/get-pip.py
+                wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
             else
                 wget https://bootstrap.pypa.io/get-pip.py
             fi
             sudo ${PYTHON} get-pip.py
             rm get-pip.py
         fi
+       ${python} -m pip install pexpect
         $install iproute2 || $install iproute
         $install cgroup-tools || $install cgroup-bin
+        $install cgroupfs-mount
     fi
 
     echo "Installing Mininet core"
@@ -220,7 +222,7 @@ function mn_doc {
     if ! $install doxygen-latex; then
         echo "doxygen-latex not needed"
     fi
-    sudo pip install doxypy
+    sudo pip2 install doxypy
 }
 
 # The following will cause a full OF install, covering:
@@ -797,7 +799,7 @@ function vm_clean {
     sudo rm -rf /tmp/*
     sudo rm -rf openvswitch*.tar.gz
 
-    # Remove sensistive files
+    # Remove sensitive files
     history -c  # note this won't work if you have multiple bash sessions
     rm -f ~/.bash_history  # need to clear in memory and remove on disk
     rm -f ~/.ssh/id_rsa* ~/.ssh/known_hosts
@@ -841,7 +843,7 @@ exit 0
 }
 
 function usage {
-    printf '\nUsage: %s [-abcdfhikmnprtvVwxy03]\n\n' $(basename $0) >&2
+    printf '\nUsage: %s [-abcdefhikmnprtvVwxy03]\n\n' $(basename $0) >&2
 
     printf 'This install script attempts to install useful packages\n' >&2
     printf 'for Mininet. It should (hopefully) work on Ubuntu 11.10+\n' >&2
@@ -868,8 +870,8 @@ function usage {
     printf -- ' -v: install Open (V)switch\n' >&2
     printf -- ' -V <version>: install a particular version of Open (V)switch on Ubuntu\n' >&2
     printf -- ' -w: install OpenFlow (W)ireshark dissector\n' >&2
+    printf -- ' -x: install NO(X) Classic OpenFlow controller\n' >&2    
     printf -- ' -y: install R(y)u Controller\n' >&2
-    printf -- ' -x: install NO(X) Classic OpenFlow controller\n' >&2
     printf -- ' -0: (default) -0[fx] installs OpenFlow 1.0 versions\n' >&2
     printf -- ' -3: -3[fx] installs OpenFlow 1.3 versions\n' >&2
     exit 2
